@@ -1,10 +1,30 @@
 import styled from 'styled-components';
 
 export const Container = styled.div`
-  margin-top: 32px;
+  position: relative;
+`;
+
+export const InputSearchContainer = styled.div`
+  width: 100%;
+
+  input {
+    width: 100%;
+    border-radius: 25px;
+    height: 50px;
+    background: #fff;
+    border: none;
+    padding: 0 16px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.04);
+    outline: 0;
+
+    &::placeholder {
+      color: ${props => props.theme.colors.gray[200]};
+    }
+  }
 `;
 
 export const Header = styled.header`
+  margin-top: 32px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -43,6 +63,11 @@ export const ListContainer = styled.div`
       gap: 8px;
       border: none;
       background: none;
+      transition: 0.2s;
+
+      &:hover {
+        filter: brightness(0.8);
+      }
 
       span {
         color: ${props => props.theme.colors.primary.main};

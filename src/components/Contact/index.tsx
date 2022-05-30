@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import edit from '../../assets/images/icons/edit.svg';
 import trash from '../../assets/images/icons/trash.svg';
 import { Container } from './styles';
@@ -16,9 +17,9 @@ export function Contact() {
       </div>
 
       <div className="actions">
-        <a href="/">
+        <Link to="/edit/123">
           <img src={edit} alt="edit" />
-        </a>
+        </Link>
         <button type="button">
           <img src={trash} alt="delete" />
         </button>

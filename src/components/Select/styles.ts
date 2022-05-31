@@ -11,6 +11,7 @@ export const SelectContainer = styled.select`
   background: #fff;
   border: 2px solid #fff;
   transition: border-color 200ms;
+  appearance: none;
 
   &::placeholder {
     color: ${props => props.theme.colors.gray[200]};

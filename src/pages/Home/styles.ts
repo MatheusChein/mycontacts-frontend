@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 export const Container = styled.div`
   position: relative;
@@ -51,11 +51,15 @@ export const Header = styled.header`
   }
 `;
 
-export const ListContainer = styled.div`
+interface ListContainerProps {
+  contactsOrderBy: 'asc' | 'desc';
+}
+
+export const ListContainer = styled.div<ListContainerProps>`
   margin-top: 24px;
 
   header {
-    margin-bottom: 8px;
+    margin-bottom: 12px;
 
     button {
       display: flex;
@@ -72,6 +76,14 @@ export const ListContainer = styled.div`
       span {
         color: ${props => props.theme.colors.primary.main};
         font-weight: bold;
+      }
+
+      img {
+        transition: transform 200ms ease-in-out;
+        transform: ${props =>
+          props.contactsOrderBy === 'desc'
+            ? ' rotate(180deg)'
+            : ' rotate(0deg)'};
       }
     }
   }

@@ -51,6 +51,7 @@
     "react/button-has-type": "off",
     "react/require-default-props": "off",
     "no-plusplus": "off",
-    "no-param-reassign": "off"
+    "no-param-reassign": "off",
+    "camelcase": "off"
   }
 }

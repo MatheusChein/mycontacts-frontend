@@ -2,7 +2,15 @@
 import ReactDOM from 'react-dom';
 import { Overlay, LoaderCircle } from './styles';
 
-export function Loader() {
+interface LoaderProps {
+  isLoading: boolean;
+}
+
+export function Loader({ isLoading }: LoaderProps) {
+  if (!isLoading) {
+    return null;
+  }
+
   return ReactDOM.createPortal(
     <Overlay>
       <LoaderCircle />

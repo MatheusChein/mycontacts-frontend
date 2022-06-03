@@ -53,6 +53,7 @@
     "react/require-default-props": "off",
     "no-plusplus": "off",
     "no-param-reassign": "off",
-    "camelcase": "off"
+    "camelcase": "off",
+    "class-methods-use-this": "off"
   }
 }

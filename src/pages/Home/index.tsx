@@ -1,14 +1,19 @@
 import { Link } from 'react-router-dom';
 import { ChangeEvent, useEffect, useMemo, useState } from 'react';
+
+import ContactsService from '../../services/ContactsService';
+
+import { Contact, ContactData } from '../../components/Contact';
+import { Loader } from '../../components/Loader';
+
 import {
   Container,
   Header,
   InputSearchContainer,
   ListContainer,
 } from './styles';
+
 import arrow from '../../assets/images/icons/arrow.svg';
-import { Contact, ContactData } from '../../components/Contact';
-import { Loader } from '../../components/Loader';
 
 export function Home() {
   const [contacts, setContacts] = useState<ContactData[]>([]);
@@ -28,11 +33,12 @@ export function Home() {
     async function loadContacts() {
       try {
         setIsLoading(true);
-        const response = await fetch(
-          `http://localhost:3001/contacts?orderBy=${contactsOrderBy}`,
+
+        const contactsList = await ContactsService.listContacts(
+          contactsOrderBy,
         );
-        const data = await response.json();
-        setContacts(data);
+
+        setContacts(contactsList);
       } catch (error) {
         console.log(error);
       } finally {

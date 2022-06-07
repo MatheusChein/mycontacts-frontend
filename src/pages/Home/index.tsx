@@ -14,10 +14,13 @@ import {
 } from './styles';
 
 import arrow from '../../assets/images/icons/arrow.svg';
+import { APIError } from '../../errors/APIError';
+
+type OrderBy = 'asc' | 'desc';
 
 export function Home() {
   const [contacts, setContacts] = useState<ContactData[]>([]);
-  const [contactsOrderBy, setContactsOrderBy] = useState<'asc' | 'desc'>('asc');
+  const [contactsOrderBy, setContactsOrderBy] = useState<OrderBy>('asc');
   const [searchTerm, setSearchTerm] = useState('');
   const [isLoading, setIsLoading] = useState(true);
 
@@ -40,7 +43,15 @@ export function Home() {
 
         setContacts(contactsList);
       } catch (error) {
-        console.log(error);
+        if (error instanceof APIError) {
+          // erro da API - mostrar mensagem para user
+          console.log('Name', error.name);
+          console.log('Message', error.message);
+        } else {
+          // erro do javascript - mostrar mensagem para user
+          // enviar os dados do erro para um serviço de log
+          console.log(error);
+        }
       } finally {
         setIsLoading(false);
       }

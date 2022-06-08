@@ -15,6 +15,9 @@ export const ButtonContainer = styled.button<ButtonContainerProps>`
   font-weight: bold;
   background: ${props => props.theme.colors.primary.main};
   transition: background 200ms ease-in;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
   &:hover {
     background: ${props => props.theme.colors.primary.light};

@@ -30,4 +30,9 @@ export const InputContainer = styled.input<InputContainerProps>`
     css`
       border: 2px solid ${props.theme.colors.danger.main};
     `}
+
+  &[disabled] {
+    background: ${props => props.theme.colors.gray[100]};
+    border-color: ${props => props.theme.colors.gray[100]};
+  }
 `;

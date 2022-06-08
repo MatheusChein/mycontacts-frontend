@@ -8,26 +8,56 @@ class HttpClient {
     this.baseURL = baseURL;
   }
 
-  async get(path: string) {
+  async makeRequest(path: string, options?: RequestInit) {
     await delay(500);
 
-    const response = await fetch(`${this.baseURL}${path}`);
+    const headers = new Headers();
+
+    if (options?.body) {
+      headers.append('Content-Type', 'application/json');
+    }
+
+    if (options?.headers) {
+      Object.entries(options.headers).forEach(([key, value]) => {
+        headers.append(key, value);
+      });
+    }
+
+    const response = await fetch(`${this.baseURL}${path}`, {
+      ...options,
+      headers,
+    });
 
     const contentTypeHeader = response.headers.get('Content-Type');
 
-    let body = null;
+    let responseBody = null;
 
     if (contentTypeHeader?.includes('application/json')) {
-      body = await response.json();
+      responseBody = await response.json();
     }
 
     // o response.ok é um boolean que faz o papel de saber se o status da response está entre 200 e 299,
     // ou seja, se é um status de sucesso
     if (response.ok) {
-      return body;
+      return responseBody;
     }
 
-    throw new APIError(body, response);
+    throw new APIError(responseBody, response);
+  }
+
+  get(path: string, options?: RequestInit) {
+    return this.makeRequest(path, {
+      method: 'GET',
+      headers: options?.headers,
+    });
+  }
+
+  post(path: string, options?: RequestInit) {
+    return this.makeRequest(path, {
+      method: 'POST',
+      body: options?.body,
+      headers: options?.headers,
+    });
   }
 }
 

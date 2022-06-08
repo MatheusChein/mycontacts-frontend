@@ -1,4 +1,3 @@
-/* eslint-disable no-empty */
 import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
 import { useErrors } from '../../hooks/useErrors';
 import CategoriesService from '../../services/CategoriesService';
@@ -7,12 +6,19 @@ import { isValidEmail } from '../../utils/isValidEmail';
 import { Button } from '../Button';
 import { FormGroup } from '../FormGroup';
 import { Input } from '../Input';
-import { Loader } from '../Loader';
 import { Select } from '../Select';
 import { FormContainer, ButtonContainer } from './styles';
 
+interface FormData {
+  name: string;
+  email: string;
+  phone: string;
+  categoryId: string;
+}
+
 interface ContactFormProps {
   buttonLabel: string;
+  onSubmit: (formData: FormData) => Promise<void>;
 }
 
 interface Category {
@@ -20,7 +26,7 @@ interface Category {
   name: string;
 }
 
-export function ContactForm({ buttonLabel }: ContactFormProps) {
+export function ContactForm({ buttonLabel, onSubmit }: ContactFormProps) {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
@@ -80,7 +86,12 @@ export function ContactForm({ buttonLabel }: ContactFormProps) {
       return;
     }
 
-    console.log({ name, email, phone, categoryId });
+    onSubmit({
+      name,
+      email,
+      phone,
+      categoryId,
+    });
   }
 
   return (

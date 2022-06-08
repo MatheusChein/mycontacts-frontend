@@ -5,7 +5,12 @@ export function EditContact() {
   return (
     <>
       <PageHeader title="Editar contato" />
-      <ContactForm buttonLabel="Salvar alterações" />
+      <ContactForm
+        buttonLabel="Salvar alterações"
+        onSubmit={async () => {
+          console.log('hello');
+        }}
+      />
     </>
   );
 }

@@ -8,6 +8,10 @@ interface Contact {
   category_name?: string | null;
 }
 
+type CreateContact = Omit<Contact, 'id' | 'category_name'> & {
+  category_id: string;
+};
+
 class ContactsService {
   httpClient: HttpClient;
 
@@ -17,6 +21,12 @@ class ContactsService {
 
   async listContacts(contactsOrderBy = 'asc'): Promise<Contact[]> {
     return this.httpClient.get(`/contacts?orderBy=${contactsOrderBy}`);
+  }
+
+  async createContact(contact: CreateContact) {
+    return this.httpClient.post('/contacts', {
+      body: JSON.stringify(contact),
+    });
   }
 }
 

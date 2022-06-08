@@ -54,6 +54,7 @@
     "no-plusplus": "off",
     "no-param-reassign": "off",
     "camelcase": "off",
-    "class-methods-use-this": "off"
+    "class-methods-use-this": "off",
+    "no-empty": ["error", { "allowEmptyCatch": true }]
   }
 }

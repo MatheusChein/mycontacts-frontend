@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import ReactDOM from 'react-dom';
-import { Overlay, LoaderCircle } from './styles';
+import { Spinner } from '../Spinner';
+import { Overlay } from './styles';
 
 interface LoaderProps {
   isLoading: boolean;
@@ -13,7 +14,7 @@ export function Loader({ isLoading }: LoaderProps) {
 
   return ReactDOM.createPortal(
     <Overlay>
-      <LoaderCircle />
+      <Spinner size={90} />
     </Overlay>,
     document.getElementById('loader-root')!,
   );

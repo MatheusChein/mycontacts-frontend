@@ -1,10 +1,13 @@
-import { ChangeEvent, FormEvent, useState } from 'react';
+/* eslint-disable no-empty */
+import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
 import { useErrors } from '../../hooks/useErrors';
+import CategoriesService from '../../services/CategoriesService';
 import { formatPhone } from '../../utils/formatPhone';
 import { isValidEmail } from '../../utils/isValidEmail';
 import { Button } from '../Button';
 import { FormGroup } from '../FormGroup';
 import { Input } from '../Input';
+import { Loader } from '../Loader';
 import { Select } from '../Select';
 import { FormContainer, ButtonContainer } from './styles';
 
@@ -12,13 +15,37 @@ interface ContactFormProps {
   buttonLabel: string;
 }
 
+interface Category {
+  id: string;
+  name: string;
+}
+
 export function ContactForm({ buttonLabel }: ContactFormProps) {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
-  const [category, setCategory] = useState('');
+  const [categoryId, setCategoryId] = useState('');
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [isLoadingCategories, setIsLoadingCategories] = useState(true);
+
   const { addError, removeError, getErrorMessageByFieldName, errors } =
     useErrors();
+
+  useEffect(() => {
+    const loadCategories = async () => {
+      try {
+        const categoriesList = await CategoriesService.listCategories();
+
+        setCategories(categoriesList);
+      } catch {
+        // catch vazio, apenas para capturar o erro, mas sem nada visual para o user
+      } finally {
+        setIsLoadingCategories(false);
+      }
+    };
+
+    loadCategories();
+  }, []);
 
   const isFormValid = name && errors.length === 0;
 
@@ -53,7 +80,7 @@ export function ContactForm({ buttonLabel }: ContactFormProps) {
       return;
     }
 
-    console.log({ name, email, phone, category });
+    console.log({ name, email, phone, categoryId });
   }
 
   return (
@@ -86,16 +113,18 @@ export function ContactForm({ buttonLabel }: ContactFormProps) {
         />
       </FormGroup>
 
-      <FormGroup>
+      <FormGroup isLoading={isLoadingCategories}>
         <Select
-          value={category}
-          onChange={event => setCategory(event.target.value)}
+          value={categoryId}
+          onChange={event => setCategoryId(event.target.value)}
+          disabled={isLoadingCategories}
         >
-          <option value="" disabled>
-            Categoria
-          </option>
-          <option value="instagram">Instagram</option>
-          <option value="discord">Discord</option>
+          <option value="">Sem categoria</option>
+          {categories.map(category => (
+            <option key={category.id} value={category.id}>
+              {category.name}
+            </option>
+          ))}
         </Select>
       </FormGroup>
 
